@@ -1,0 +1,33 @@
+[15:07:26] [main/INFO]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=file:/C:/Users/samro/.gradle/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.7/8ab114ac385e6dbdad5efafe28aba4df8120915f/mixin-0.8.7.jar Service=LaunchWrapper Env=UNKNOWN
+[15:07:26] [main/INFO]: FML platform manager could not load class cpw.mods.fml.relauncher.CoreModManager. Proceeding without FML support.
+[15:07:26] [main/ERROR]: MixinBootstrap.doInit() called during a tweak constructor!
+[15:07:26] [main/INFO]: FML platform manager could not load class cpw.mods.fml.relauncher.CoreModManager. Proceeding without FML support.
+[15:07:26] [main/INFO]: Loading tweak class name net.minecraft.launchwrapper.VanillaTweaker
+[15:07:26] [main/INFO]: Using primary tweak class name net.minecraft.launchwrapper.VanillaTweaker
+[15:07:26] [main/INFO]: Calling tweak class net.minecraft.launchwrapper.VanillaTweaker
+[15:07:26] [main/INFO]: Launching wrapped minecraft {net.minecraft.client.main.Main}
+[15:07:30] [Render thread/ERROR]: Unable to launch
+java.lang.reflect.InvocationTargetException: null
+	at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:118) ~[?:?]
+	at java.lang.reflect.Method.invoke(Method.java:580) ~[?:?]
+	at net.minecraft.launchwrapper.Launch.launch(Launch.java:135) ~[launchwrapper-1.12.jar:?]
+	at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[?:?]
+	at java.lang.reflect.Method.invoke(Method.java:580) ~[?:?]
+	at uk.minersonline.cube_tide.Main.main(Main.kt:65) ~[Main.class:?]
+Caused by: java.lang.NoClassDefFoundError: Could not initialize class com.mojang.blaze3d.systems.RenderSystem
+	at net.minecraft.SystemReport.setDetail(SystemReport.java:63) ~[SystemReport.class:?]
+	at net.minecraft.client.Minecraft.fillSystemReport(Minecraft.java:2053) ~[Minecraft.class:?]
+	at net.minecraft.client.Minecraft.fillReport(Minecraft.java:2048) ~[Minecraft.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:198) ~[Main.class:?]
+	at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[?:?]
+	... 5 more
+Caused by: java.lang.ExceptionInInitializerError: Exception java.lang.ExceptionInInitializerError [in thread "Render thread"]
+	at com.mojang.blaze3d.platform.MemoryTracker.<clinit>(MemoryTracker.java:17) ~[MemoryTracker.class:?]
+	at com.mojang.blaze3d.vertex.BufferBuilder.<init>(BufferBuilder.java:54) ~[BufferBuilder.class:?]
+	at com.mojang.blaze3d.vertex.Tesselator.<init>(Tesselator.java:25) ~[Tesselator.class:?]
+	at com.mojang.blaze3d.vertex.Tesselator.<init>(Tesselator.java:29) ~[Tesselator.class:?]
+	at com.mojang.blaze3d.vertex.Tesselator.<clinit>(Tesselator.java:20) ~[Tesselator.class:?]
+	at com.mojang.blaze3d.systems.RenderSystem.<clinit>(RenderSystem.java:1176) ~[RenderSystem.class:?]
+	at net.minecraft.client.main.Main.main(Main.java:187) ~[Main.class:?]
+	at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[?:?]
+	... 5 more
