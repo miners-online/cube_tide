@@ -1,4 +1,4 @@
-package uk.minersonline.cube_tide
+package uk.minersonline.cube_tide.patches
 
 class ClientBrandRetrieverInterceptor {
     companion object {

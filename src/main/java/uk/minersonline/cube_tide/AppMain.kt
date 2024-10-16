@@ -1,12 +1,27 @@
 package uk.minersonline.cube_tide
 
+
 import net.bytebuddy.ByteBuddy
-import net.bytebuddy.agent.ByteBuddyAgent
-import net.bytebuddy.dynamic.loading.ClassReloadingStrategy
-import net.bytebuddy.implementation.MethodDelegation
-import net.bytebuddy.matcher.ElementMatchers
 import net.minecraft.client.ClientBrandRetriever
 
+import java.lang.reflect.Method;
+import java.util.concurrent.Callable;
+import net.bytebuddy.agent.ByteBuddyAgent;
+import net.bytebuddy.agent.builder.AgentBuilder;
+import net.bytebuddy.agent.builder.AgentBuilder.RedefinitionStrategy;
+import net.bytebuddy.description.NamedElement
+import net.bytebuddy.description.type.TypeDescription;
+import net.bytebuddy.dynamic.loading.ClassReloadingStrategy
+import net.bytebuddy.implementation.MethodDelegation;
+import net.bytebuddy.implementation.bind.annotation.AllArguments;
+import net.bytebuddy.implementation.bind.annotation.Origin;
+import net.bytebuddy.implementation.bind.annotation.RuntimeType;
+import net.bytebuddy.implementation.bind.annotation.SuperCall;
+import net.bytebuddy.matcher.ElementMatcher.Junction;
+import net.bytebuddy.matcher.ElementMatchers
+import uk.minersonline.cube_tide.patches.ClientBrandRetrieverInterceptor
+import net.bytebuddy.matcher.ElementMatchers.*
+import uk.minersonline.cube_tide.patches.MinecraftInterceptor
 
 open class AppMain {
     companion object {
@@ -41,6 +56,21 @@ open class AppMain {
                     AppMain::class.java.classLoader,
                     ClassReloadingStrategy.fromInstalledAgent()
                 )
+
+            val matcher: Junction<in TypeDescription> = nameStartsWith<NamedElement>("net.minecraft.").and(isAnnotatedWith(Deprecated::class.java))
+            AgentBuilder.Default()
+                .disableClassFormatChanges()
+//                .with(AgentBuilder.Listener.StreamWriting.toSystemOut())
+                .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+                .with(AgentBuilder.InitializationStrategy.NoOp.INSTANCE)
+                .with(AgentBuilder.TypeStrategy.Default.REBASE)
+                .type(matcher)
+                .transform { builder, typeDescription, classLoader, module ->
+                    builder
+                        .method(not(isAbstract()).and(named("createTitle")))
+                        .intercept(MethodDelegation.to(MinecraftInterceptor::class.java))
+                }
+                .installOnByteBuddyAgent();
         }
 
         // Function to load Minecraft's Main class using ByteBuddy
